@@ -1,11 +1,11 @@
-## ﻿Population dynamics of the glacial relict amphipod *Monoporeia affinis* in a subarctic lake
+# ﻿Population dynamics of the glacial relict amphipod *Monoporeia affinis* in a subarctic lake
 
 Author Information: 
-			Alexey A. Maximov
-			https://orcid.org/0000-0002-8581-6994
-			Zoological Institute, Russian Academy of Sciences
-			Universitetskaya nab. 1, St Petersburg 199034, Russia
-			e-mail: alexeymaximov@mail.ru 	
+Alexey A. Maximov
+https://orcid.org/0000-0002-8581-6994
+Zoological Institute, Russian Academy of Sciences
+Universitetskaya nab. 1, St Petersburg 199034, Russia
+e-mail: alexeymaximov@mail.ru 	
 
 Date of data collection: from June 2002 to December 2019
 
@@ -14,12 +14,12 @@ Geographic location of data collection: 66⁰ 20.774′ N 33⁰ 37.77′ E, Lake
 Information about funding sources that supported the collection of the data: Russian Foundation of Basic Research, grant 19-04-01000; Ministry of Science and Higher Education of the Russian Federation, АААА-А19-119020690091-0
 
 
-Recommended citation for this dataset: Maximov A.A. (2021) Population dynamics of the glacial relict amphipod Monoporeia affinis in a subarctic lake, Dryad, Dataset, https://doi.org/10.5061/dryad.0zpc866z6
+**Recommended citation for this dataset:** Maximov A.A. (2021) Population dynamics of the glacial relict amphipod *Monoporeia affinis* in a subarctic lake, Dryad, Dataset, https://doi.org/10.5061/dryad.0zpc866z6
 
 
 File Data.xlsx contains the data belonging to the article: Maximov A.A. (2021) Population dynamics of the glacial relict amphipods in a subarctic lake: role of density-dependent and density-independent factors. Ecology and Evolution
 
-# Data for Tab Environmental factors
+## Data for Tab Environmental factors
 Number of variables: 6
 Number of cases/rows: 18
 
@@ -38,7 +38,7 @@ Number of cases/rows: 18
 
 	F	Maximal near-bottom temperature during open-water period (May - October)		°C		
 
-# Data for Tab Macrozoobenthos
+## Data for Tab Macrozoobenthos
 Number of variables: 5
 Number of cases/rows: 18
 
@@ -49,7 +49,7 @@ Number of cases/rows: 18
 	D	Mean annual abundance of other taxa		ind. m-2
 	E	Mean annual abundance of all macrozoobenthos	ind. m-2
 
-# Data for Tab Monoporeia population
+## Data for Tab Monoporeia population
 Number of variables: 6
 Number of cases/rows: 80
 
