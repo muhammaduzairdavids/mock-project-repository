@@ -1,7 +1,8 @@
 # ﻿Population dynamics of the glacial relict amphipod *Monoporeia affinis* in a subarctic lake
 
 Author Information: 
-Alexey A. Maximov
+Alexey A. Maximov [![ORCID](https://orcid.filecamp.com/s/o/n8FpP1ADWmZDCUP2/VU19wHSMUnX9TD4R/03CaAkr1LaBp5PRz)](https://orcid.org/0000-0002-8581-6994)
+
 https://orcid.org/0000-0002-8581-6994
 Zoological Institute, Russian Academy of Sciences
 Universitetskaya nab. 1, St Petersburg 199034, Russia
