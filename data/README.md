@@ -1,4 +1,4 @@
-﻿Title of Dataset: Population dynamics of the glacial relict amphipod Monoporeia affinis in a subarctic lake
+## ﻿Population dynamics of the glacial relict amphipod *Monoporeia affinis* in a subarctic lake
 
 Author Information: 
 			Alexey A. Maximov
@@ -19,7 +19,7 @@ Recommended citation for this dataset: Maximov A.A. (2021) Population dynamics o
 
 File Data.xlsx contains the data belonging to the article: Maximov A.A. (2021) Population dynamics of the glacial relict amphipods in a subarctic lake: role of density-dependent and density-independent factors. Ecology and Evolution
 
-Data for Tab Environmental factors
+# Data for Tab Environmental factors
 Number of variables: 6
 Number of cases/rows: 18
 
@@ -38,7 +38,7 @@ Number of cases/rows: 18
 
 	F	Maximal near-bottom temperature during open-water period (May - October)		°C		
 
-Data for Tab Macrozoobenthos
+# Data for Tab Macrozoobenthos
 Number of variables: 5
 Number of cases/rows: 18
 
@@ -49,7 +49,7 @@ Number of cases/rows: 18
 	D	Mean annual abundance of other taxa		ind. m-2
 	E	Mean annual abundance of all macrozoobenthos	ind. m-2
 
-Data for Tab Monoporeia population
+# Data for Tab Monoporeia population
 Number of variables: 6
 Number of cases/rows: 80
 
