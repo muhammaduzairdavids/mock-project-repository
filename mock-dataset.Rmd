@@ -1,5 +1,5 @@
 ---
-title: "Mock Project Dataset"
+title: "Mock Project Using the Maximov (2021) Amphipod Dataset"
 author: "Muhammad Uzair Davids"
 date: "2025-02-20"
 output: html_document
@@ -8,15 +8,26 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+## Loading packages for the analysis
+First, I load the packages I want to use to clean the data set. 
 
-## R Markdown
+```{r}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+```
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+## Introduction to dataset
 
-```{r cars}
-summary(cars)
+The dataset used for this exercise is taken from the paper by [Alexy Maximov 
+(2021)](https://doi.org/10.5061/dryad.0zpc866z6) titled: **Population dynamics 
+of the glacial relict amphipod *Monoporeia affinis* in a subarctic lake**.   
+
+```{r load dataset}
+env <- read.csv("data/data_environmental.csv") # environmental variables
+macro <- read.csv("data/data_macrozoobenthos.csv") # species abundance data 
+pop <- read.csv("data/data_population.csv") # age classes of population
 ```
 
 ## Including Plots
