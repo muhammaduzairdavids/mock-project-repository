@@ -8,15 +8,16 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
 ## Loading packages for the analysis
 First, I load the packages I want to use to clean the data set. 
 
-```{r}
+```{r load library, include=FALSE}
 library(tidyverse)
+library(tidyr)
 library(dplyr)
 library(ggplot2)
 ```
-
 
 ## Introduction to dataset
 
@@ -26,16 +27,39 @@ of the glacial relict amphipod *Monoporeia affinis* in a subarctic lake**.
 
 ```{r load dataset}
 env <- read.csv("data/data_environmental.csv") # environmental variables
-macro <- read.csv("data/data_macrozoobenthos.csv") # species abundance data 
+macro <- read.csv("data/data_macrozoobenthos.csv") # species abundance data
 pop <- read.csv("data/data_population.csv") # age classes of population
 ```
 
-## Including Plots
+## Rename columns
 
-You can also embed plots, for example:
+Some of the column names in the data set are not easily understood, so I 
+will change them to make them easier to understand and read from the data set.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r rename columns}
+# Rename the environmental data columns
+env <- env %>% rename(
+  "Mean Concentration of Chlorophyll-a (µg.L-1)" = Clorophyll.a..microgram.L.1,
+  "Standard Error (µg.L-1)" = SE,
+  "Mean Near-Bottom Temperature (°C)" = T.mean,
+  "Minimum Near-Bottom Temperature (°C)" = T.min,
+  "Maximum Near-Bottom Temperature (°C)" = T.max
+)  
+
+macro <- macro %>% rename(
+  "Mean Concentration of Chlorophyll-a (µg.L-1)" = Clorophyll.a..microgram.L.1,
+  "Standard Error (µg.L-1)" = SE,
+  "Mean Near-Bottom Temperature (°C)" = T.mean,
+  "Minimum Near-Bottom Temperature (°C)" = T.min,
+  "Maximum Near-Bottom Temperature (°C)" = T.max
+)  
+
+env <- env %>% rename(
+  "Mean Concentration of Chlorophyll-a (µg.L-1)" = Clorophyll.a..microgram.L.1,
+  "Standard Error (µg.L-1)" = SE,
+  "Mean Near-Bottom Temperature (°C)" = T.mean,
+  "Minimum Near-Bottom Temperature (°C)" = T.min,
+  "Maximum Near-Bottom Temperature (°C)" = T.max
+)  
+
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
