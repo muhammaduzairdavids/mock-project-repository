@@ -361,7 +361,7 @@ display: none;
 <div id="loading-packages-for-the-analysis" class="section level2">
 <h2><strong>Loading packages for the analysis</strong></h2>
 <p>First, I load the packages I want to use to clean the data set.</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
+<pre class="r"><code>library(tidyverse) # the main packaage we will be using to tidy our data</code></pre>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
@@ -374,14 +374,20 @@ display: none;
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 <pre class="r"><code>library(tidyr)
 library(dplyr)
-library(ggplot2)</code></pre>
+library(ggplot2) # to make the pretty graphs at the end</code></pre>
 <hr />
 </div>
-<div id="introduction-to-dataset" class="section level2">
-<h2><strong>Introduction to dataset</strong></h2>
-<p>The dataset used for this exercise is taken from the paper by <a href="https://doi.org/10.5061/dryad.0zpc866z6">Alexy Maximov (2021)</a>
+<div id="loading-the-datasets" class="section level2">
+<h2><strong>Loading the datasets</strong></h2>
+<p>The datasets used for this exercise is taken from the paper by <a href="https://doi.org/10.5061/dryad.0zpc866z6">Alexy Maximov (2021)</a>
 titled: <strong>Population dynamics of the glacial relict amphipod
-<em>Monoporeia affinis</em> in a subarctic lake</strong>.</p>
+<em>Monoporeia affinis</em> in a subarctic lake</strong>. There are
+three datasets: <code>data_environmental.csv</code> contains the data
+pertaining to the environmental variables,
+<code>data_macrzoobenthos.csv</code> contains data pertaining to the
+abundances of certain groups macrozoobenthos organisms, and
+<code>data_population.csv</code> contains the data pertaining to the age
+structure of the <em>Monoporeia</em> spp. population.</p>
 <pre class="r"><code># environmental data
 raw_env &lt;- read.csv(
   &quot;C:/Program Files/Git/mock-project-repository/data/data_environmental.csv&quot;
@@ -396,25 +402,113 @@ raw_macro &lt;- read.csv(
 raw_pop &lt;- read.csv(
   &quot;C:/Program Files/Git/mock-project-repository/data/data_population.csv&quot;
 )</code></pre>
+</div>
+<div id="inspect-the-data" class="section level2">
+<h2><strong>Inspect the data</strong></h2>
+<p>Now that we’ve loaded the data sets, lets have a closer look at the
+variables and some of the values they contain.</p>
+<p>For a summary of the data sets we can use the <code>summary()</code>
+function.</p>
+<pre class="r"><code># summary of the environmental data set
+summary(raw_env)</code></pre>
+<pre><code>##       Year      Clorophyll.a..microgram.L.1      SE                T.mean     
+##  Min.   :2002   Min.   :0.8278              Length:18          Min.   :5.951  
+##  1st Qu.:2006   1st Qu.:1.1648              Class :character   1st Qu.:6.928  
+##  Median :2010   Median :1.3940              Mode  :character   Median :7.804  
+##  Mean   :2010   Mean   :1.3622                                 Mean   :8.004  
+##  3rd Qu.:2015   3rd Qu.:1.5444                                 3rd Qu.:8.942  
+##  Max.   :2019   Max.   :1.7692                                 Max.   :9.963  
+##      T.min           T.max       
+##  Min.   :3.000   Min.   : 6.700  
+##  1st Qu.:4.050   1st Qu.: 9.125  
+##  Median :4.600   Median :10.250  
+##  Mean   :4.483   Mean   :10.633  
+##  3rd Qu.:5.000   3rd Qu.:13.075  
+##  Max.   :6.200   Max.   :13.700</code></pre>
+<pre class="r"><code># summary of the macrozoobenthos data set
+summary(raw_macro)</code></pre>
+<pre><code>##       Year      Monoporeia..ind.m.2 Chironomidae..ind.m.2 Others..ind.m.2 
+##  Min.   :2002   Min.   :140.0       Min.   : 236.0        Min.   : 27.00  
+##  1st Qu.:2006   1st Qu.:239.0       1st Qu.: 614.8        1st Qu.: 52.25  
+##  Median :2010   Median :413.0       Median : 795.5        Median : 80.50  
+##  Mean   :2010   Mean   :400.4       Mean   : 802.3        Mean   : 74.06  
+##  3rd Qu.:2015   3rd Qu.:512.0       3rd Qu.: 964.0        3rd Qu.: 91.00  
+##  Max.   :2019   Max.   :799.0       Max.   :1250.0        Max.   :113.00  
+##  Macrozoobenthos..ind.m.2
+##  Min.   : 499.0          
+##  1st Qu.: 902.8          
+##  Median :1300.5          
+##  Mean   :1276.7          
+##  3rd Qu.:1592.2          
+##  Max.   :1884.0</code></pre>
+<pre class="r"><code># summary of the population data set
+summary(raw_pop)</code></pre>
+<pre><code>##      Date           N.0...ind.m.2   N.1...ind.m.2   N.2...ind.m.2   
+##  Length:80          Min.   : 32.0   Min.   : 24.0   Min.   : 0.000  
+##  Class :character   1st Qu.:134.5   1st Qu.: 96.0   1st Qu.: 0.000  
+##  Mode  :character   Median :208.0   Median :160.0   Median : 0.000  
+##                     Mean   :237.9   Mean   :165.5   Mean   : 5.388  
+##                     3rd Qu.:314.0   3rd Qu.:221.0   3rd Qu.: 0.000  
+##                     Max.   :827.0   Max.   :368.0   Max.   :96.000  
+##  N.population..ind.m.2       SE        
+##  Min.   :  56.0        Min.   : 16.00  
+##  1st Qu.: 249.8        1st Qu.: 37.75  
+##  Median : 375.0        Median : 60.00  
+##  Mean   : 408.8        Mean   : 68.76  
+##  3rd Qu.: 538.0        3rd Qu.: 87.25  
+##  Max.   :1187.0        Max.   :308.00</code></pre>
+<p>We can also use the <code>head()</code> and <code>tail()</code>
+functions. <code>head()</code> will allow us to view the first few rows
+of the data, whereas <code>tail()</code> will allow us to view the last
+few rows.</p>
+<pre class="r"><code>head(raw_env)</code></pre>
+<pre><code>##   Year Clorophyll.a..microgram.L.1      SE   T.mean T.min T.max
+## 1 2002                    1.216229 No data 5.950667   4.8   6.7
+## 2 2003                    1.717744 No data 6.840196   3.2   8.8
+## 3 2004                    1.473416 No data 7.750439   5.6   9.2
+## 4 2005                    1.203369 No data 6.960526   5.0   8.3
+## 5 2006                    1.151932 No data 7.857143   4.2  12.4
+## 6 2007                    1.036197 No data 9.554960   6.2  11.5</code></pre>
+<pre class="r"><code>tail(raw_env)</code></pre>
+<pre><code>##    Year Clorophyll.a..microgram.L.1          SE   T.mean T.min T.max
+## 13 2014                    1.475911 0.434446199 6.916768   3.0   9.2
+## 14 2015                    1.314911 0.322055896 8.925305   4.7  13.7
+## 15 2016                    1.544911 0.285029238 9.744545   5.1  13.3
+## 16 2017                    1.542768  0.20902511 6.113265   4.0   9.1
+## 17 2018                    1.469931 0.181463443 9.963437   5.0  13.7
+## 18 2019                    1.609142 0.355724958 7.450000   3.3   9.5</code></pre>
 <hr />
 </div>
 <div id="tidying-the-data" class="section level1">
 <h1><strong>Tidying the data</strong></h1>
 <p>The first step of this exercise will be to ensure that the data we’re
-using is in <em>tidy format</em>.</p>
-<p>Essnetially, <em>tidy data</em> is data where: 1. Columns represent
-variables. 2. Rows are observations. 3. Cells contain only a single
-value. 4. The data is in <em>wide format</em>. 5. There are no gaps in
-the data.</p>
-<p>Ensuring that our data is in <em>tidy format</em> helps to make the
-workflow easier to follow, but also allows for more effective
-communication and reproductibility of research. The data sets I am using
+using is in <em>tidy format</em>. Ensuring that our data is in <em>tidy
+format</em> helps to make the workflow easier to follow, but also allows
+for more effective communication and reproductibility of research.</p>
+<p>At its simplest <em>tidy data</em> is data where:</p>
+<ol style="list-style-type: decimal">
+<li><p>Columns represent variables.</p></li>
+<li><p>Rows are observations.</p></li>
+<li><p>Cells contain only a single value.</p></li>
+<li><p>The data is in <em>wide format</em>.</p></li>
+<li><p>There are no gaps in the data.</p></li>
+</ol>
+<p>It should also be mentioned that these guidelines may not be the only
+things which qualify as <em>tidy data</em>. The data sets I am using
 abides by most of these guidelines, except for two - it is
 <strong>not</strong> in <em>wide format</em>, and there are data
 missing.</p>
 <p>There are also other steps we can take to tidy the data further, such
 as renaming columns, which may help with the reproducible aspect of this
 assignment.</p>
+<div id="removing-missing-data" class="section level2">
+<h2><strong>Removing missing data</strong></h2>
+<p>Gaps in data sets are considered to be in violation of <em>tidy
+format</em>. The environmental data set contains cells with “No data”
+values. To fix this, we will replace the “No data” message with
+<code>NA</code>.</p>
+<pre class="r"><code>raw_env[raw_env == &quot;No data&quot;] &lt;- NA # Replace &quot;No data&quot; with NA</code></pre>
+</div>
 <div id="rename-columns" class="section level2">
 <h2><strong>Rename columns</strong></h2>
 <p>Some of the column names in the data set are not easily understood,
@@ -459,19 +553,61 @@ tidy_pop &lt;- raw_pop %&gt;% rename(
   = SE
 )</code></pre>
 </div>
-<div id="removing-missing-data" class="section level2">
-<h2><strong>Removing missing data</strong></h2>
-<p>Gaps in data sets are considered to be in violation of <em>tidy
-format</em>. The environmental data set contains cells with “No data”
-values. To fix this, we will replace the “No data” message with NA.</p>
-<pre class="r"><code>tidy_env[tidy_env == &quot;No data&quot;] &lt;- NA # Replace &quot;No data&quot; with NA</code></pre>
-</div>
 <div id="pivot-longer" class="section level2">
 <h2><strong>Pivot longer</strong></h2>
 <p>Currently, our data is in <em>wide format</em>, which violates the
 tidy format guidelines. So let’s fix that using the
 <code>pivot_longer</code> function from the <code>tidyr</code> package.
 This will allow us to convert the data into <em>long format</em>.</p>
+<pre class="r"><code># convert the environmental data to long format
+tidy_env &lt;- tidy_env %&gt;%
+  pivot_longer(
+    cols = c(
+      &quot;Mean Near-Bottom Temperature (°C)&quot;,
+      &quot;Minimum Near-Bottom Temperature (°C)&quot;,
+      &quot;Maximum Near-Bottom Temperature (°C)&quot;
+    ),
+    # Select the columns to pivot
+    names_to = &quot;Variable&quot;,
+    # New column name for previous column headers
+    values_to = &quot;Value&quot;
+  )      # New column for data values
+
+# convert the macrozoobenthos data to long format
+tidy_macro &lt;- tidy_macro %&gt;%
+  pivot_longer(
+    cols = c(
+      &quot;Mean annual abundance of Monoporeia affinis (individuals.m-2)&quot;,
+      &quot;Mean annual abundance of chironomids (individuals.m-2)&quot;,
+      &quot;Mean annual abundance of other taxa (individuals.m-2)&quot;,
+      &quot;Mean annual abundance of all macrozoobenthos (individuals.m-2)&quot;
+    ),
+    # Select the columns to pivot
+    names_to = &quot;Variable&quot;,
+    # New column name for previous column headers
+    values_to = &quot;Value&quot;
+  )      # New column for data values
+
+# convert the population data to long format
+tidy_pop &lt;- tidy_pop %&gt;%
+  pivot_longer(
+    cols = c(
+      &quot;Abundance of age group 0+ (individuals.m-2)&quot;,
+      &quot;Abundance of age group 1+ (individuals.m-2)&quot;,
+      &quot;Abundance of age group 2+ (individuals.m-2)&quot;,
+      &quot;Total population abundance (individuals.m-2)&quot;
+    ),
+    # Select the columns to pivot
+    names_to = &quot;Variable&quot;,
+    # New column name for previous column headers
+    values_to = &quot;Value&quot;
+  )      # New column for data values</code></pre>
+<hr />
+</div>
+<div id="plot-the-tidied-data" class="section level2">
+<h2><strong>Plot the tidied data</strong></h2>
+<p>Now that we’ve converted the data to <em>long format</em>, we can
+consider our data to be in tidy format - so let’s plot it!</p>
 <hr />
 </div>
 </div>

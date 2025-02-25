@@ -49,6 +49,56 @@ raw_pop <- read.csv(
 )
 ```
 
+## **Inspect the data**
+
+Now that we've loaded the data sets, lets have a closer look at the variables 
+and some of the values they contain.
+
+For a summary of the data sets we can use the `summary()` function. 
+ 
+```{r view data}
+# summary of the environmental data set
+summary(raw_env)
+```
+
+```{r}
+# summary of the macrozoobenthos data set
+summary(raw_macro)
+```
+
+```{r}
+# summary of the population data set
+summary(raw_pop)
+```
+
+We can also use the `head()` and `tail()` functions. `head()` will allow us to 
+view the first few rows of the data, whereas `tail()` will allow us to view the 
+last few rows.
+
+```{r}
+# first few rows of the environmental data
+head(raw_env)
+
+# last few rows of the environmental data
+tail(raw_env)
+```
+
+```{r}
+# first few rows of the macrozoobenthos data
+head(raw_macro)
+
+# last few rows of the macrozoobenthos data
+tail(raw_macro)
+```
+
+```{r}
+# first few rows of the population data
+head(raw_pop)
+
+# last few rows of the population data
+tail(raw_pop)
+```
+
 ---
 
 # **Tidying the data**
@@ -82,8 +132,9 @@ assignment.
 ## **Removing missing data**
 
 Gaps in data sets are considered to be in violation of *tidy format*. The 
-environmental data set contains cells with "No data" values. To fix this, we 
-will replace the "No data" message with `NA`. 
+environmental data set contains cells with "No data" values - which we saw 
+after using the `head()` function above. To fix this, we will replace the "No 
+data" message with `NA`. 
 
 ```{r removing missing data}
 raw_env[raw_env == "No data"] <- NA # Replace "No data" with NA
@@ -134,7 +185,6 @@ tidy_pop <- raw_pop %>% rename(
   "Standard error (individuals.m-2)" 
   = SE
 )
-
 ```
 
 ## **Pivot longer**
@@ -178,16 +228,15 @@ tidy_pop <- tidy_pop %>%
   pivot_longer(
     cols = c(
       "Abundance of age group 0+ (individuals.m-2)",
-  "Abundance of age group 1+ (individuals.m-2)",
-  "Abundance of age group 2+ (individuals.m-2)",
-  "Total population abundance (individuals.m-2)"
+      "Abundance of age group 1+ (individuals.m-2)",
+      "Abundance of age group 2+ (individuals.m-2)",
+      "Total population abundance (individuals.m-2)"
     ),
     # Select the columns to pivot
     names_to = "Variable",
     # New column name for previous column headers
     values_to = "Value"
   )      # New column for data values
-
 ```
 
 ---
@@ -196,12 +245,5 @@ tidy_pop <- tidy_pop %>%
 Now that we've converted the data to *long format*, we can consider our data to
 be in tidy format - so let's plot it!
 
-```{r}
-# Grouped bar plot
-ggplot(tidy_macro, aes(x = Variable, y = Value, fill = Variable)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  theme_minimal()
 
-```
-
-
+---
