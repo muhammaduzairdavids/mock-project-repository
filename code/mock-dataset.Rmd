@@ -16,7 +16,7 @@ First, I load the packages I want to use to clean the data set.
 library(tidyverse) # the main packaage we will be using to tidy our data
 library(tidyr)
 library(dplyr)
-library(ggplot2)
+library(ggplot2) # to make the pretty graphs at the end
 ```
 
 --- 
@@ -79,6 +79,16 @@ There are also other steps we can take to tidy the data further, such as
 renaming columns, which may help with the reproducible aspect of this 
 assignment.
 
+## **Removing missing data**
+
+Gaps in data sets are considered to be in violation of *tidy format*. The 
+environmental data set contains cells with "No data" values. To fix this, we 
+will replace the "No data" message with `NA`. 
+
+```{r removing missing data}
+raw_env[raw_env == "No data"] <- NA # Replace "No data" with NA
+```
+
 ## **Rename columns**
 
 Some of the column names in the data set are not easily understood, so I 
@@ -127,20 +137,71 @@ tidy_pop <- raw_pop %>% rename(
 
 ```
 
-## **Removing missing data**
-
-Gaps in data sets are considered to be in violation of *tidy format*. The 
-environmental data set contains cells with "No data" values. To fix this, we 
-will replace the "No data" message with `NA`. 
-
-```{r removing missing data}
-tidy_env[tidy_env == "No data"] <- NA # Replace "No data" with NA
-```
-
 ## **Pivot longer**
 
 Currently, our data is in *wide format*, which violates the tidy format 
 guidelines. So let's fix that using the `pivot_longer` function from the `tidyr` 
 package. This will allow us to convert the data into *long format*.
 
+```{r}
+# convert the environmental data to long format
+tidy_env <- tidy_env %>%
+  pivot_longer(
+    cols = c(
+      "Mean Near-Bottom Temperature (°C)",
+      "Minimum Near-Bottom Temperature (°C)",
+      "Maximum Near-Bottom Temperature (°C)"
+    ),
+    # Select the columns to pivot
+    names_to = "Variable",
+    # New column name for previous column headers
+    values_to = "Value"
+  )      # New column for data values
+
+# convert the macrozoobenthos data to long format
+tidy_macro <- tidy_macro %>%
+  pivot_longer(
+    cols = c(
+      "Mean annual abundance of Monoporeia affinis (individuals.m-2)",
+      "Mean annual abundance of chironomids (individuals.m-2)",
+      "Mean annual abundance of other taxa (individuals.m-2)",
+      "Mean annual abundance of all macrozoobenthos (individuals.m-2)"
+    ),
+    # Select the columns to pivot
+    names_to = "Variable",
+    # New column name for previous column headers
+    values_to = "Value"
+  )      # New column for data values
+
+# convert the population data to long format
+tidy_pop <- tidy_pop %>%
+  pivot_longer(
+    cols = c(
+      "Abundance of age group 0+ (individuals.m-2)",
+  "Abundance of age group 1+ (individuals.m-2)",
+  "Abundance of age group 2+ (individuals.m-2)",
+  "Total population abundance (individuals.m-2)"
+    ),
+    # Select the columns to pivot
+    names_to = "Variable",
+    # New column name for previous column headers
+    values_to = "Value"
+  )      # New column for data values
+
+```
+
 ---
+
+## **Plot the tidied data**
+Now that we've converted the data to *long format*, we can consider our data to
+be in tidy format - so let's plot it!
+
+```{r}
+# Grouped bar plot
+ggplot(tidy_macro, aes(x = Variable, y = Value, fill = Variable)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal()
+
+```
+
+
