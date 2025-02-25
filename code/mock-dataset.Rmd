@@ -1,5 +1,5 @@
 ---
-title: "Mock Project Using the Maximov (2021) Amphipod Dataset"
+title: "**Mock Project Using the Maximov (2021) Amphipod Dataset**"
 author: "Muhammad Uzair Davids"
 date: "2025-02-20"
 output: html_document
@@ -9,21 +9,28 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Loading packages for the analysis
+## **Loading packages for the analysis**
 First, I load the packages I want to use to clean the data set. 
 
-```{r load library, include=FALSE}
-library(tidyverse)
+```{r load library}
+library(tidyverse) # the main packaage we will be using to tidy our data
 library(tidyr)
 library(dplyr)
 library(ggplot2)
 ```
 
-## Introduction to dataset
+--- 
 
-The dataset used for this exercise is taken from the paper by [Alexy Maximov 
+## **Loading the datasets**
+
+The datasets used for this exercise is taken from the paper by [Alexy Maximov 
 (2021)](https://doi.org/10.5061/dryad.0zpc866z6) titled: **Population dynamics 
-of the glacial relict amphipod *Monoporeia affinis* in a subarctic lake**.   
+of the glacial relict amphipod *Monoporeia affinis* in a subarctic lake**. 
+There are three datasets: `data_environmental.csv` contains the data pertaining 
+to the environmental variables, `data_macrzoobenthos.csv` contains data 
+pertaining to the abundances of certain groups macrozoobenthos organisms, and
+`data_population.csv` contains the data pertaining to the age structure of the 
+*Monoporeia* spp. population. 
 
 ```{r load dataset}
 # environmental data
@@ -42,7 +49,37 @@ raw_pop <- read.csv(
 )
 ```
 
-## Rename columns
+---
+
+# **Tidying the data**
+
+The first step of this exercise will be to ensure that the data we're using is
+in *tidy format*. Ensuring that our data is in *tidy format* helps to make the 
+workflow easier to follow, but also allows for more effective communication and 
+reproductibility of research. 
+
+At its simplest *tidy data* is data where:
+
+1. Columns represent variables.
+
+2. Rows are observations.
+
+3. Cells contain only a single value.
+
+4. The data is in *wide format*.
+
+5. There are no gaps in the data. 
+
+It should also be mentioned that these guidelines may not be the only things
+which qualify as *tidy data*. The data sets I am using abides by most of these 
+guidelines, except for two - it is **not** in *wide format*, and there are data 
+missing. 
+
+There are also other steps we can take to tidy the data further, such as 
+renaming columns, which may help with the reproducible aspect of this 
+assignment.
+
+## **Rename columns**
 
 Some of the column names in the data set are not easily understood, so I 
 will change them to make them easier to understand.
@@ -90,13 +127,20 @@ tidy_pop <- raw_pop %>% rename(
 
 ```
 
-## Removing missing data
+## **Removing missing data**
 
-Gaps in data sets are considered to be in violation of *tidy* format. The 
+Gaps in data sets are considered to be in violation of *tidy format*. The 
 environmental data set contains cells with "No data" values. To fix this, we 
-will replace the "No data" message with NA. 
+will replace the "No data" message with `NA`. 
 
 ```{r removing missing data}
 tidy_env[tidy_env == "No data"] <- NA # Replace "No data" with NA
 ```
 
+## **Pivot longer**
+
+Currently, our data is in *wide format*, which violates the tidy format 
+guidelines. So let's fix that using the `pivot_longer` function from the `tidyr` 
+package. This will allow us to convert the data into *long format*.
+
+---
