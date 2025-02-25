@@ -26,15 +26,26 @@ The dataset used for this exercise is taken from the paper by [Alexy Maximov
 of the glacial relict amphipod *Monoporeia affinis* in a subarctic lake**.   
 
 ```{r load dataset}
-raw_env <- read.csv("data/data_environmental.csv") # environmental variables
-raw_macro <- read.csv("data/data_macrozoobenthos.csv") # species abundance data
-raw_pop <- read.csv("data/data_population.csv") # age classes of population
+# environmental data
+raw_env <- read.csv(
+  "C:/Program Files/Git/mock-project-repository/data/data_environmental.csv"
+)
+
+# macrzoobenthos abundance data
+raw_macro <- read.csv(
+  "C:/Program Files/Git/mock-project-repository/data/data_macrozoobenthos.csv"
+) 
+
+# population abundance data
+raw_pop <- read.csv(
+  "C:/Program Files/Git/mock-project-repository/data/data_population.csv"
+)
 ```
 
 ## Rename columns
 
 Some of the column names in the data set are not easily understood, so I 
-will change them to make them easier to understand and read from the data set.
+will change them to make them easier to understand.
 
 ```{r rename columns}
 # Rename the environmental data columns
@@ -81,7 +92,9 @@ tidy_pop <- raw_pop %>% rename(
 
 ## Removing missing data
 
-Gaps in data sets are considered to be in violation of *tidy* format. To fix this, I will remove cells containing no data. 
+Gaps in data sets are considered to be in violation of *tidy* format. The 
+environmental data set contains cells with "No data" values. To fix this, we 
+will replace the "No data" message with NA. 
 
 ```{r removing missing data}
 tidy_env[tidy_env == "No data"] <- NA # Replace "No data" with NA
