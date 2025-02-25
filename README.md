@@ -8,7 +8,7 @@ The code for this repository can be found in the ["code"](https://github.com/muh
 The data used for this project can be found in the ["data'](https://github.com/muhammaduzairdavids/mock-project-repository/tree/main/data) folder of the repository. Additionally, metadata for the data set is included in the form of a [README.md](https://github.com/muhammaduzairdavids/mock-project-repository/blob/main/data/README.md).
 
 ## The Output
-An .html output for the code is included in this repsoitory, found under the ["output"](https://github.com/muhammaduzairdavids/mock-project-repository/tree/main/output). 
+In progress...
 
 ## References
 Maximov, Alexey (2021). Population dynamics of the glacial relict amphipod Monoporeia affinis in a subarctic lake [Dataset]. Dryad. https://doi.org/10.5061/dryad.0zpc866z6
