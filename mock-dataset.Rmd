@@ -26,9 +26,9 @@ The dataset used for this exercise is taken from the paper by [Alexy Maximov
 of the glacial relict amphipod *Monoporeia affinis* in a subarctic lake**.   
 
 ```{r load dataset}
-env <- read.csv("data/data_environmental.csv") # environmental variables
-macro <- read.csv("data/data_macrozoobenthos.csv") # species abundance data
-pop <- read.csv("data/data_population.csv") # age classes of population
+raw_env <- read.csv("data/data_environmental.csv") # environmental variables
+raw_macro <- read.csv("data/data_macrozoobenthos.csv") # species abundance data
+raw_pop <- read.csv("data/data_population.csv") # age classes of population
 ```
 
 ## Rename columns
@@ -38,28 +38,52 @@ will change them to make them easier to understand and read from the data set.
 
 ```{r rename columns}
 # Rename the environmental data columns
-env <- env %>% rename(
-  "Mean Concentration of Chlorophyll-a (µg.L-1)" = Clorophyll.a..microgram.L.1,
-  "Standard Error (µg.L-1)" = SE,
-  "Mean Near-Bottom Temperature (°C)" = T.mean,
-  "Minimum Near-Bottom Temperature (°C)" = T.min,
-  "Maximum Near-Bottom Temperature (°C)" = T.max
-)  
+tidy_env <- raw_env %>% rename(
+  "Mean Concentration of Chlorophyll-a (µg.L-1)" 
+  = Clorophyll.a..microgram.L.1,
+  "Standard Error (µg.L-1)" 
+  = SE,
+  "Mean Near-Bottom Temperature (°C)" 
+  = T.mean,
+  "Minimum Near-Bottom Temperature (°C)" 
+  = T.min,
+  "Maximum Near-Bottom Temperature (°C)" 
+  = T.max
+)
 
-macro <- macro %>% rename(
-  "Mean Concentration of Chlorophyll-a (µg.L-1)" = Clorophyll.a..microgram.L.1,
-  "Standard Error (µg.L-1)" = SE,
-  "Mean Near-Bottom Temperature (°C)" = T.mean,
-  "Minimum Near-Bottom Temperature (°C)" = T.min,
-  "Maximum Near-Bottom Temperature (°C)" = T.max
-)  
+# Rename the macrozoobenthos abundance data columns
+tidy_macro <- raw_macro %>% rename(
+  "Mean annual abundance of Monoporeia affinis (individuals.m-2)" 
+  = Monoporeia..ind.m.2,
+  "Mean annual abundance of chironomids (individuals.m-2)" 
+  = Chironomidae..ind.m.2,
+  "Mean annual abundance of other taxa (individuals.m-2)" 
+  = Others..ind.m.2,
+  "Mean annual abundance of all macrozoobenthos (individuals.m-2)" 
+  = Macrozoobenthos..ind.m.2
+)
 
-env <- env %>% rename(
-  "Mean Concentration of Chlorophyll-a (µg.L-1)" = Clorophyll.a..microgram.L.1,
-  "Standard Error (µg.L-1)" = SE,
-  "Mean Near-Bottom Temperature (°C)" = T.mean,
-  "Minimum Near-Bottom Temperature (°C)" = T.min,
-  "Maximum Near-Bottom Temperature (°C)" = T.max
-)  
+# Rename the population abundance data columns
+tidy_pop <- raw_pop %>% rename(
+  "Abundance of age group 0+ (individuals.m-2)"
+  = N.0...ind.m.2,
+  "Abundance of age group 1+ (individuals.m-2)"
+  = N.1...ind.m.2,
+  "Abundance of age group 2+ (individuals.m-2)"
+  = N.2...ind.m.2,
+  "Total population abundance (individuals.m-2)"
+  = N.population..ind.m.2,
+  "Standard error (individuals.m-2)" 
+  = SE
+)
 
 ```
+
+## Removing missing data
+
+Gaps in data sets are considered to be in violation of *tidy* format. To fix this, I will remove cells containing no data. 
+
+```{r removing missing data}
+tidy_env[tidy_env == "No data"] <- NA # Replace "No data" with NA
+```
+
