@@ -3,16 +3,16 @@ This repository contains data and code I used for the Minimal Data Management mo
 
 ## Navigating the repository
 ### The Code
-The code use for the completion of the deliverable is available in both Rmarkdown format and an .html output. You will be able to download both.  
+The code use for the completion of the deliverable is available in both Rmarkdown format and an `.html` output. You will be able to download both.  
 
 For the Rmarkdown file click: [mock-dataset.Rmd](https://github.com/muhammaduzairdavids/mock-project-repository/blob/main/mock-dataset.Rmd) 
 
 For the .html output click: [mock-dataset.html](https://github.com/muhammaduzairdavids/mock-project-repository/blob/main/mock-dataset.html)
 
 ### The Data
-The data used in this mock project is based on data collected by [Maximov (2021)](https://doi.org/10.5061/dryad.0zpc866z6), and is openly available. The data can be found in the ["data"](https://github.com/muhammaduzairdavids/mock-project-repository/tree/main/data) folder of the repository, and is available for download as three .csv files. Additionally, metadata for the data set is included in the form of a [README.md](https://github.com/muhammaduzairdavids/mock-project-repository/blob/main/data/README.md).
+The data used in this mock project is based on data collected by [Maximov (2021)](https://doi.org/10.5061/dryad.0zpc866z6), and is openly available. The data can be found in the ["data"](https://github.com/muhammaduzairdavids/mock-project-repository/tree/main/data) folder of the repository, and is available for download as three `.csv` files. Additionally, metadata for the data set is included in the form of a [README.md](https://github.com/muhammaduzairdavids/mock-project-repository/blob/main/data/README.md).
 
-Dataset reference: Maximov, A. (2021). Population dynamics of the glacial relict amphipod Monoporeia affinis in a subarctic lake [Dataset]. Dryad. https://doi.org/10.5061/dryad.0zpc866z6 
+**Dataset reference:** Maximov, A. (2021). Population dynamics of the glacial relict amphipod Monoporeia affinis in a subarctic lake [Dataset]. Dryad. https://doi.org/10.5061/dryad.0zpc866z6 
 
 ### Binder
 This repository is also available on Binder. Binder will allow you to run the code in a virtual machine. To use Binder, follow these steps:
@@ -27,7 +27,7 @@ Additionally, a [binder](https://github.com/muhammaduzairdavids/mock-project-rep
 Maximov, A. (2021) Population dynamics of the glacial relict amphipods in a subarctic lake: role of density-dependent and density-independent factors. Ecology and Evolution
 
 ## Licensing
-[MIT License](https://github.com/muhammaduzairdavids/mock-project-repository/blob/main/LICENSE)
+**[MIT License](https://github.com/muhammaduzairdavids/mock-project-repository/blob/main/LICENSE)**
 
 Copyright (c) 2025 Muhammad Uzair Davids
 
