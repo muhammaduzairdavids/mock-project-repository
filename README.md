@@ -23,7 +23,7 @@ This repository is also available on Binder. Binder will allow you to run the co
 
 Additionally, a [binder](https://github.com/muhammaduzairdavids/mock-project-repository/tree/main/binder) folder is available on this repository, which contains the files I used to set-up my binder.
 
-### Further reading
+## Further reading
 Maximov, A. (2021) Population dynamics of the glacial relict amphipods in a subarctic lake: role of density-dependent and density-independent factors. Ecology and Evolution
 
 ## Licensing
