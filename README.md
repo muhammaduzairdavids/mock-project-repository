@@ -1,5 +1,5 @@
 # Mock Project Repository
-This repository contains data and code I used for the Minimal Data Management module *tidy data* deliverable. 
+This repository contains data and code I used for the Minimal Data Management module *tidy data* deliverable. The data in this repository is meant to simulate the type of data I will work with for my BSc(Hons) project.
 
 ## Navigating the repository
 ### The Code
