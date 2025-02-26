@@ -5,7 +5,9 @@ date: "2025-02-20"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+## **Setting up R**
+
+```{r setup}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -13,9 +15,9 @@ knitr::opts_chunk$set(echo = TRUE)
 First, I load the packages I want to use to clean the data set. 
 
 ```{r load library}
-library(tidyverse) # the main packaage we will be using to tidy our data
-library(tidyr)
-library(dplyr)
+library(tidyverse) # the main package we will be using to tidy our data
+library(tidyr) # for the pivot longer function
+library(dplyr) # to rename the columns
 library(ggplot2) # to make the pretty graphs at the end
 ```
 
@@ -35,17 +37,17 @@ pertaining to the abundances of certain groups macrozoobenthos organisms, and
 ```{r load dataset}
 # environmental data
 raw_env <- read.csv(
-  "C:/Program Files/Git/mock-project-repository/data/data_environmental.csv"
+  "data/data_environmental.csv"
 )
 
 # macrzoobenthos abundance data
 raw_macro <- read.csv(
-  "C:/Program Files/Git/mock-project-repository/data/data_macrozoobenthos.csv"
+  "data/data_macrozoobenthos.csv"
 ) 
 
 # population abundance data
 raw_pop <- read.csv(
-  "C:/Program Files/Git/mock-project-repository/data/data_population.csv"
+  "data/data_population.csv"
 )
 ```
 
@@ -129,15 +131,31 @@ There are also other steps we can take to tidy the data further, such as
 renaming columns, which may help with the reproducible aspect of this 
 assignment.
 
-## **Removing missing data**
+## **Removing missing and invalid data**
 
 Gaps in data sets are considered to be in violation of *tidy format*. The 
 environmental data set contains cells with "No data" values - which we saw 
-after using the `head()` function above. To fix this, we will replace the "No 
-data" message with `NA`. 
+after using the `head()` function above. To fix this, we will replace the "No data" message with `NA`. 
 
 ```{r removing missing data}
 raw_env[raw_env == "No data"] <- NA # Replace "No data" with NA
+```
+
+## **Removing redundant data**
+
+Currently the macrozoobenthos and population datasets contain data which could
+be considered as redundant - the "Mean annual abundance of all macrozoobenthos 
+(individuals.m-2)" column is just the sum of mean annual abundance of all the
+organisms, and the "Total population abundance (individuals.m-2)" column is the
+sum of all age groups in the population - so we will remove them to make 
+plotting the data easier. 
+
+```{r remove redundant data}
+# remove redundant columns from the macrozoobenthos dataset
+raw_macro <- raw_macro %>% select(-`Macrozoobenthos..ind.m.2`)
+
+# remove redundant columns from the population dataset
+raw_pop <- raw_pop %>% select(-`N.population..ind.m.2`)
 ```
 
 ## **Rename columns**
@@ -167,9 +185,7 @@ tidy_macro <- raw_macro %>% rename(
   "Mean annual abundance of chironomids (individuals.m-2)" 
   = Chironomidae..ind.m.2,
   "Mean annual abundance of other taxa (individuals.m-2)" 
-  = Others..ind.m.2,
-  "Mean annual abundance of all macrozoobenthos (individuals.m-2)" 
-  = Macrozoobenthos..ind.m.2
+  = Others..ind.m.2
 )
 
 # Rename the population abundance data columns
@@ -180,8 +196,6 @@ tidy_pop <- raw_pop %>% rename(
   = N.1...ind.m.2,
   "Abundance of age group 2+ (individuals.m-2)"
   = N.2...ind.m.2,
-  "Total population abundance (individuals.m-2)"
-  = N.population..ind.m.2,
   "Standard error (individuals.m-2)" 
   = SE
 )
@@ -195,7 +209,7 @@ package. This will allow us to convert the data into *long format*.
 
 ```{r}
 # convert the environmental data to long format
-tidy_env <- tidy_env %>%
+long_env <- tidy_env %>%
   pivot_longer(
     cols = c(
       "Mean Near-Bottom Temperature (°C)",
@@ -209,13 +223,12 @@ tidy_env <- tidy_env %>%
   )      # New column for data values
 
 # convert the macrozoobenthos data to long format
-tidy_macro <- tidy_macro %>%
+long_macro <- tidy_macro %>%
   pivot_longer(
     cols = c(
       "Mean annual abundance of Monoporeia affinis (individuals.m-2)",
       "Mean annual abundance of chironomids (individuals.m-2)",
-      "Mean annual abundance of other taxa (individuals.m-2)",
-      "Mean annual abundance of all macrozoobenthos (individuals.m-2)"
+      "Mean annual abundance of other taxa (individuals.m-2)"
     ),
     # Select the columns to pivot
     names_to = "Variable",
@@ -224,13 +237,12 @@ tidy_macro <- tidy_macro %>%
   )      # New column for data values
 
 # convert the population data to long format
-tidy_pop <- tidy_pop %>%
+long_pop <- tidy_pop %>%
   pivot_longer(
     cols = c(
       "Abundance of age group 0+ (individuals.m-2)",
       "Abundance of age group 1+ (individuals.m-2)",
-      "Abundance of age group 2+ (individuals.m-2)",
-      "Total population abundance (individuals.m-2)"
+      "Abundance of age group 2+ (individuals.m-2)"
     ),
     # Select the columns to pivot
     names_to = "Variable",
@@ -245,5 +257,21 @@ tidy_pop <- tidy_pop %>%
 Now that we've converted the data to *long format*, we can consider our data to
 be in tidy format - so let's plot it!
 
+```{r stacked bar graph}
+ggplot(tidy_pop, aes(x = Date, y = Value, fill = Variable)) +
+  geom_bar(stat = "identity") +
+  geom_errorbar(
+    aes(
+      ymin = Value - `Standard error (individuals.m-2)`,
+      ymax = Value + `Standard error (individuals.m-2)`
+    ),
+    position = position_stack(vjust = 0.5),
+    width = 0.3
+  ) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
+  labs(title = "Stacked Bar Plot", x = "Date", y = "Value") +
+  theme_minimal()
+
+```
 
 ---
