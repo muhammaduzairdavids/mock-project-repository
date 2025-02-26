@@ -15,19 +15,24 @@ knitr::opts_chunk$set(echo = TRUE)
 First, I load the packages I want to use to clean the data set. 
 
 ```{r load library}
-library(tidyverse) # the main package we will be using to tidy our data
-library(tidyr) # for the pivot longer function
-library(dplyr) # to rename the columns
-library(ggplot2) # to make the pretty graphs at the end
+library(tidyverse) # The main package we will be using to tidy our data
+library(tidyr) # For the pivot longer function
+library(dplyr) # To rename the columns
+library(ggplot2) # To make the pretty graphs at the end
+library(lubridate) # Will allow us to extract the year from date data later on
 ```
 
 --- 
 
 ## **Loading the datasets**
 
-The datasets used for this exercise is taken from the paper by [Alexy Maximov 
+The datasets used for this exercise is based on a dataset by [Alexy Maximov 
 (2021)](https://doi.org/10.5061/dryad.0zpc866z6) titled: **Population dynamics 
-of the glacial relict amphipod *Monoporeia affinis* in a subarctic lake**. 
+of the glacial relict amphipod *Monoporeia affinis* in a subarctic lake**. This
+data set was used for the paper titled: Population dynamics of the glacial 
+relict amphipods in a subarctic lake: role of density-dependent and 
+density-independent factors. 
+
 There are three datasets: `data_environmental.csv` contains the data pertaining 
 to the environmental variables, `data_macrzoobenthos.csv` contains data 
 pertaining to the abundances of certain groups macrozoobenthos organisms, and
@@ -35,20 +40,22 @@ pertaining to the abundances of certain groups macrozoobenthos organisms, and
 *Monoporeia* spp. population. 
 
 ```{r load dataset}
-# environmental data
+# Load in environmental data
 raw_env <- read.csv(
   "data/data_environmental.csv"
 )
 
-# macrzoobenthos abundance data
+# Load in macrzoobenthos abundance data
 raw_macro <- read.csv(
   "data/data_macrozoobenthos.csv"
 ) 
 
-# population abundance data
+# Load in population abundance data
 raw_pop <- read.csv(
   "data/data_population.csv"
 )
+
+# I have loaded all the data sets into their own variables.
 ```
 
 ## **Inspect the data**
@@ -58,17 +65,17 @@ and some of the values they contain.
 
 For a summary of the data sets we can use the `summary()` function. 
  
-```{r view data}
+```{r summarise environmental data}
 # summary of the environmental data set
 summary(raw_env)
 ```
 
-```{r}
+```{r summarise macrozoobenthos data}
 # summary of the macrozoobenthos data set
 summary(raw_macro)
 ```
 
-```{r}
+```{r summarise population data}
 # summary of the population data set
 summary(raw_pop)
 ```
@@ -77,7 +84,7 @@ We can also use the `head()` and `tail()` functions. `head()` will allow us to
 view the first few rows of the data, whereas `tail()` will allow us to view the 
 last few rows.
 
-```{r}
+```{r first and last rows of the environmental data}
 # first few rows of the environmental data
 head(raw_env)
 
@@ -85,7 +92,7 @@ head(raw_env)
 tail(raw_env)
 ```
 
-```{r}
+```{r first and last rows of macrozoobenthos data}
 # first few rows of the macrozoobenthos data
 head(raw_macro)
 
@@ -93,7 +100,7 @@ head(raw_macro)
 tail(raw_macro)
 ```
 
-```{r}
+```{r first and last rows of the population data}
 # first few rows of the population data
 head(raw_pop)
 
@@ -135,10 +142,13 @@ assignment.
 
 Gaps in data sets are considered to be in violation of *tidy format*. The 
 environmental data set contains cells with "No data" values - which we saw 
-after using the `head()` function above. To fix this, we will replace the "No data" message with `NA`. 
+after using the `head()` function above. To fix this, we will replace the 
+"No data" message with `NA`. 
 
 ```{r removing missing data}
 raw_env[raw_env == "No data"] <- NA # Replace "No data" with NA
+
+# NB: I have overwritten the old raw_env file here. 
 ```
 
 ## **Removing redundant data**
@@ -156,6 +166,9 @@ raw_macro <- raw_macro %>% select(-`Macrozoobenthos..ind.m.2`)
 
 # remove redundant columns from the population dataset
 raw_pop <- raw_pop %>% select(-`N.population..ind.m.2`)
+
+#NB: for both of these functions I've overwritten the raw data since we won't 
+# be needing the old data. 
 ```
 
 ## **Rename columns**
@@ -199,6 +212,8 @@ tidy_pop <- raw_pop %>% rename(
   "Standard error (individuals.m-2)" 
   = SE
 )
+
+# Here I have created new variables for the renamed data.  
 ```
 
 ## **Pivot longer**
@@ -207,7 +222,7 @@ Currently, our data is in *wide format*, which violates the tidy format
 guidelines. So let's fix that using the `pivot_longer` function from the `tidyr` 
 package. This will allow us to convert the data into *long format*.
 
-```{r}
+```{r pivot longer}
 # convert the environmental data to long format
 long_env <- tidy_env %>%
   pivot_longer(
@@ -249,29 +264,56 @@ long_pop <- tidy_pop %>%
     # New column name for previous column headers
     values_to = "Value"
   )      # New column for data values
+
+# I have created new variables for the long format versions of the data. 
 ```
 
 ---
+## **Working with the tidied data**
+Now that we've converted the data to *long format*, we can consider our data to
+be in tidy format - so let's create a plot. For this part of the exercise I 
+will just work with the tidied population data set.
+
+Firtsly, the data set contains multiple dates, but I want to look at how the 
+age structure of the *Monoporeia affinis* population changes over the years on
+average. So let's extract the year from the date column and summarise the 
+average number of individuals per age group per year. 
+
+```{r extract the year and calculate the average}
+# Convert Date column to Date format (if not already)
+long_pop <- long_pop %>%
+  mutate(Year = year(Date))  # Extract year from the Date column
+
+# Summarizing data: Average number of individuals per age group per year
+pop_summary <- long_pop %>%
+  group_by(Year, Variable) %>%  # Group by Year and Age Group
+  summarise(Avg_Individuals = mean(Value), .groups = 'drop')  # Average per year
+```
+
 
 ## **Plot the tidied data**
-Now that we've converted the data to *long format*, we can consider our data to
-be in tidy format - so let's plot it!
+Now that we've extracted the year form the `Date` column and calculated the 
+average number of individuals per m² per age group per year,  let's plot it!
+
+Since we're working with data which represents groups within a larger 
+population, and looking at how they change over time, a stacked bar graph may 
+work best.  
 
 ```{r stacked bar graph}
-ggplot(tidy_pop, aes(x = Date, y = Value, fill = Variable)) +
-  geom_bar(stat = "identity") +
-  geom_errorbar(
-    aes(
-      ymin = Value - `Standard error (individuals.m-2)`,
-      ymax = Value + `Standard error (individuals.m-2)`
-    ),
-    position = position_stack(vjust = 0.5),
-    width = 0.3
+# Create the stacked bar plot
+ggplot(pop_summary,
+       aes(x = as.factor(Year), y = Avg_Individuals, fill = Variable)) +
+  geom_col(position = "stack") +  # Stacked bars
+  scale_fill_grey(start = 0.2, end = 0.8) +  # Monochrome gradient
+  theme_minimal() +
+  labs(
+    title = "Figure 1: The population age structure of Monoporeia affinis
+       between the year 2002 and 2019",
+    x = "Year",
+    y = "Average abundance of age groups (individuals per m²)",
+    fill = "Age Group"
   ) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
-  labs(title = "Stacked Bar Plot", x = "Date", y = "Value") +
-  theme_minimal()
-
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate date labels
 ```
 
 ---
