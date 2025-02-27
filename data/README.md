@@ -27,7 +27,7 @@ Maximov A.A. (2021) Population dynamics of the glacial relict amphipod *Monopore
 ## Files contain the data belonging to the article
 Maximov A.A. (2021) Population dynamics of the glacial relict amphipods in a subarctic lake: role of density-dependent and density-independent factors. Ecology and Evolution
 
-## Data for Tab Environmental factors
+## Variable explanations for data_environmental.csv
 
 	Column	Variable										Units		Remark
 
@@ -43,7 +43,7 @@ Maximov A.A. (2021) Population dynamics of the glacial relict amphipods in a sub
 
 	F	Maximal near-bottom temperature during open-water period (May - October)		°C		
 
-## Data for Tab Macrozoobenthos
+## Variable explanations for data_macrozoobenthos.csv
 
 	Column	Variable					Units
 	A	Year
@@ -52,7 +52,9 @@ Maximov A.A. (2021) Population dynamics of the glacial relict amphipods in a sub
 	D	Mean annual abundance of other taxa		individuals.m-2
 	E	Mean annual abundance of all macrozoobenthos	individuals.m-2
 
-## Data for Tab Monoporeia population
+## Variable explanations for data_population.csv 
+
+**NB:** The population data is specifically for the *Monoporeia** spp. population.
 
 	Column	Variable					Units
 	A	Date
