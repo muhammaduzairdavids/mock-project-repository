@@ -54,7 +54,7 @@ Maximov A.A. (2021) Population dynamics of the glacial relict amphipods in a sub
 
 ## Variable explanations for data_population.csv 
 
-**NB:** The population data is specifically for the *Monoporeia** spp. population.
+**NB:** The population data is specifically for the *Monoporeia* spp. population.
 
 	Column	Variable					Units
 	A	Date
