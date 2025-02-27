@@ -29,6 +29,8 @@ Maximov A.A. (2021) Population dynamics of the glacial relict amphipods in a sub
 
 ## Variable explanations for data_environmental.csv
 
+Click [data_environmental.csv](https://github.com/muhammaduzairdavids/mock-project-repository/edit/main/data/data_environmemntal.csv) to be redirected to the environmental data set.
+
 	Column	Variable										Units		Remark
 
 	A	Year of data collection
@@ -45,6 +47,8 @@ Maximov A.A. (2021) Population dynamics of the glacial relict amphipods in a sub
 
 ## Variable explanations for data_macrozoobenthos.csv
 
+Click [data_macrozoobenthos.csv](https://github.com/muhammaduzairdavids/mock-project-repository/edit/main/data/data_macrozoobenthos.csv) to be redirected to the macrozoobenthos data set.
+
 	Column	Variable					Units
 	A	Year
 	B	Mean annual abundance of Monoporeia affinis	individuals.m-2
@@ -54,7 +58,7 @@ Maximov A.A. (2021) Population dynamics of the glacial relict amphipods in a sub
 
 ## Variable explanations for data_population.csv 
 
-**NB:** The population data is specifically for the *Monoporeia* spp. population.
+Click [data_population.csv](https://github.com/muhammaduzairdavids/mock-project-repository/edit/main/data/data_population.csv) to be redirected to the *Monoporeia* spp. population data set.
 
 	Column	Variable					Units
 	A	Date
